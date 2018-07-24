@@ -302,7 +302,7 @@ workflows:
       - deploy-docs:
           requires:
             - test-unit
-            - test-app
+      #      - test-app
             - docker-build
           filters:
             branches:
