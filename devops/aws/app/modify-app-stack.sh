@@ -48,22 +48,28 @@ do
 	MIN_TASK_COUNT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.min_task_count")
 	MAX_TASK_COUNT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.max_task_count")
 
-        ALB_LISTENER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_port")
-        ALB_LISTENER_PATH=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_path")
-        ALB_LISTENER_RULE_PRIORITY=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_rule_priority")
-        ALB_HEALTH_CHECK_PATH=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_health_check_path")
+	ALB_LISTENER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_port")
+	ALB_LISTENER_PATH=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_path")
+	ALB_LISTENER_RULE_PRIORITY=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_listener_rule_priority")
+	ALB_HEALTH_CHECK_PATH=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.alb_health_check_path")
 
-        TASK_DEFINITION_NAME=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.name")
-        TASK_CPU=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.cpu")
-        TASK_MEMORY=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.memory")
+	TASK_DEFINITION_NAME=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.name")
+	TASK_CPU=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.cpu")
+	TASK_MEMORY=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.memory")
 
-        CONTAINER_NAME=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.name")
-        CONTAINER_NAME="${STACK_NAME}-${CONTAINER_NAME}"
-        CONTAINER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.port")
-        CONTAINER_IMAGE=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image")
-        CONTAINER_IMAGE_TAG=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image_tag")
-	if [ "${CONTAINER_IMAGE_TAG}" == "null" ]; then
-		CONTAINER_IMAGE_TAG=latest
+	CONTAINER_NAME=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.name")
+	CONTAINER_NAME="${STACK_NAME}-${CONTAINER_NAME}"
+	CONTAINER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.port")
+
+	if [ -z "${"CONTAINER_IMAGE"} ]; then
+		CONTAINER_IMAGE=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image")
+	fi
+
+	if [ -z "${"CONTAINER_IMAGE_TAG"} ]; then
+		CONTAINER_IMAGE_TAG=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image_tag")
+		if [ "${CONTAINER_IMAGE_TAG}" == "null" ]; then
+			CONTAINER_IMAGE_TAG=latest
+		fi
 	fi
 
 	cloudformation_template_file="file://${SERVICE_NAME}/cf-template.yaml"
