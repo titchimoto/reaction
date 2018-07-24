@@ -127,7 +127,7 @@ jobs:
       - run:
           name: Deploy new task definition and update service in ECS
           command: |
-            .circleci/bin/ecs_deploy.sh
+            .circleci/bin/ecs-deploy.sh
 
   deploy-docs:
     <<: *defaults
