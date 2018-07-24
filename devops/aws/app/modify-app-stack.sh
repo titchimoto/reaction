@@ -61,11 +61,11 @@ do
 	CONTAINER_NAME="${STACK_NAME}-${CONTAINER_NAME}"
 	CONTAINER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.port")
 
-	if [ -z "${"CONTAINER_IMAGE"} ]; then
+	if [ -z "${CONTAINER_IMAGE}" ]; then
 		CONTAINER_IMAGE=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image")
 	fi
 
-	if [ -z "${"CONTAINER_IMAGE_TAG"} ]; then
+	if [ -z "${CONTAINER_IMAGE_TAG}" ]; then
 		CONTAINER_IMAGE_TAG=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image_tag")
 		if [ "${CONTAINER_IMAGE_TAG}" == "null" ]; then
 			CONTAINER_IMAGE_TAG=latest
