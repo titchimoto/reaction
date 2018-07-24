@@ -3,7 +3,7 @@ service:
   environments:
     staging:
       certificate_arn: arn:aws:acm:us-west-2:202687395681:certificate/8d13bb5f-bc3b-4fa8-82b7-4c4cb91a677b
-      desired_task_count: 1
+      desired_task_count: 2
       min_task_count: 0
       max_task_count: 4
       alb_listener_port: 80
