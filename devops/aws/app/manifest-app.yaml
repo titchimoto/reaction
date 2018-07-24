@@ -1,0 +1,8 @@
+environment:
+  name: staging
+  application:
+    name: reaction
+    ecs_cluster: core
+    services:
+    - name: core-service
+    - name: http-echo-service
