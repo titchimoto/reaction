@@ -61,11 +61,15 @@ do
 	CONTAINER_NAME="${STACK_NAME}-${CONTAINER_NAME}"
 	CONTAINER_PORT=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.port")
 
-	if [ -z "${CONTAINER_IMAGE}" ]; then
+	if [ "${DOCKER_REPOSITORY}" ]; then
+		CONTAINER_IMAGE=${DOCKER_REPOSITORY}
+	else
 		CONTAINER_IMAGE=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image")
 	fi
 
-	if [ -z "${CONTAINER_IMAGE_TAG}" ]; then
+	if [ "${CIRCLE_SHA1}" ]; then
+		CONTAINER_IMAGE_TAG=${CIRCLE_SHA1}
+	else	
 		CONTAINER_IMAGE_TAG=$(/usr/local/bin/yq r $SERVICE_MANIFEST_FILE "service.environments.${ENV_NAME}.task-definition.container.image_tag")
 		if [ "${CONTAINER_IMAGE_TAG}" == "null" ]; then
 			CONTAINER_IMAGE_TAG=latest
@@ -95,5 +99,5 @@ do
 	  --tags $stack_tags \
 	  --capabilities CAPABILITY_NAMED_IAM
 
-	#aws cloudformation wait ${AWS_CLI_WAIT_CMD} --stack-name $STACK_NAME
+	aws cloudformation wait ${AWS_CLI_WAIT_CMD} --stack-name $STACK_NAME
 done

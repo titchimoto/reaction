@@ -9,8 +9,5 @@ sudo chmod +x /usr/local/bin/yq
 #wget https://github.com/mozilla/sops/releases/download/3.0.5/sops_3.0.4_amd64.deb -O /tmp/sops_3.0.4_amd64.deb
 #sudo dpkg -i /tmp/sops_3.0.4_amd64.deb
 
-CONTAINER_IMAGE=$DOCKER_REPOSITORY
-CONTAINER_IMAGE_TAG=$CIRCLE_SHA1
-
 cd devops/aws/app
 ./update-app-stack.sh core-service
