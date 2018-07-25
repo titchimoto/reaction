@@ -76,6 +76,7 @@ do
 	source ${SERVICE_NAME}/cf-params.sh
 
 	aws cloudformation ${AWS_CLI_RUN_CMD} \
+	  --region ${AWS_REGION}
 	  --stack-name $STACK_NAME \
 	  --parameters $stack_parameters \
 	  --template-body $cloudformation_template_file \
