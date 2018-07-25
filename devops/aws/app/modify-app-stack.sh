@@ -80,8 +80,8 @@ do
 	fi
 
 	aws cloudformation ${AWS_CLI_RUN_CMD} \
-	  --region ${AWS_REGION}
-	  --stack-name $STACK_NAME \
+	  --region ${AWS_REGION} \
+	  --stack-name ${STACK_NAME} \
 	  --parameters $stack_parameters \
 	  --template-body $cloudformation_template_file \
 	  --tags $stack_tags \
