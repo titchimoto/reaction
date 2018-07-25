@@ -79,6 +79,14 @@ do
 		AWS_REGION=us-west-2
 	fi
 
+	if [ "${CLOUDFORMATION_AWS_ACCESS_KEY_ID}"]; then
+		AWS_ACCESS_KEY_ID=${CLOUDFORMATION_AWS_ACCESS_KEY_ID}
+	fi
+
+	if [ "${CLOUDFORMATION_AWS_SECRET_ACCESS_KEY}"]; then
+		AWS_SECRET_ACCESS_KEY=${CLOUDFORMATION_AWS_SECRET_ACCESS_KEY}
+	fi
+
 	aws cloudformation ${AWS_CLI_RUN_CMD} \
 	  --region ${AWS_REGION} \
 	  --stack-name ${STACK_NAME} \
