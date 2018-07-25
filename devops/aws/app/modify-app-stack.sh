@@ -75,10 +75,10 @@ do
 	cloudformation_template_file="file://${SERVICE_NAME}/cf-template.yaml"
 	source ${SERVICE_NAME}/cf-params.sh
 
-	if [ -z "${AWS_REGION" ]; then
+	if [ -z "${AWS_REGION}" ]; then
 		AWS_REGION=us-west-2
 	fi
-	
+
 	aws cloudformation ${AWS_CLI_RUN_CMD} \
 	  --region ${AWS_REGION}
 	  --stack-name $STACK_NAME \
